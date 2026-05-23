@@ -1,0 +1,11 @@
+{
+	"id": "obsidian-lens",
+	"name": "Obsidian Lens",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "Capture screen regions and digitize handwritten notes via native macOS OCR.",
+	"author": "Erinç Ayaz",
+	"authorUrl": "",
+	"fundingUrl": "",
+	"isDesktopOnly": true
+}
