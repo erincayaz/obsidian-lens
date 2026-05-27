@@ -39,9 +39,9 @@ export class LensSettingTab extends PluginSettingTab {
 				.addOption("auto", "Auto-detect")
 				.addOption("en-US", "English")
 				.addOption("tr-TR", "Turkish")
-				.setValue(this.plugin.settings.language)
+				.setValue(this.plugin.settings!.language)
 				.onChange(async (value: string) => {
-					this.plugin.settings.language = value as LanguageMode;
+					this.plugin.settings!.language = value as LanguageMode;
 					await this.plugin.saveSettings();
 				}));
 

@@ -3,7 +3,7 @@ import {LensSettings, DEFAULT_SETTINGS, LensSettingTab} from "./settings";
 import {registerCommands} from "./commands/ocr-command";
 
 export default class ObsidianLens extends Plugin {
-	settings: LensSettings;
+	settings: LensSettings | undefined;
 
 	async onload() {
 		await this.loadSettings();

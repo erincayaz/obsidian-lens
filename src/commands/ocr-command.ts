@@ -1,5 +1,5 @@
 import * as path from "path";
-import {MarkdownView, FileSystemAdapter, Notice} from "obsidian";
+import {FileSystemAdapter, Notice} from "obsidian";
 import ObsidianLens from "../main";
 import {captureScreenRegion} from "../services/capture";
 import {runOCR} from "../services/swift-runner";
@@ -10,7 +10,7 @@ export function registerCommands(plugin: ObsidianLens): void {
 	plugin.addCommand({
 		id: "capture-and-ocr",
 		name: "Capture screen region and run OCR",
-		editorCallback: async (editor, view: MarkdownView) => {
+		editorCallback: async (editor, view) => {
 			const adapter = plugin.app.vault.adapter as FileSystemAdapter;
 			const vaultBasePath = adapter.getBasePath();
 			const pluginDir = path.join(
@@ -40,7 +40,7 @@ export function registerCommands(plugin: ObsidianLens): void {
 					const text = await runOCR(
 						swiftScriptPath,
 						imagePath,
-						plugin.settings.language,
+						plugin.settings!.language,
 					);
 
 					// Step 3: Insert recognized text at cursor
