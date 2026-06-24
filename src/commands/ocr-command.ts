@@ -1,16 +1,15 @@
 import * as path from "path";
-import {FileSystemAdapter, Notice} from "obsidian";
+import { Notice } from "obsidian";
+import { FileSystemAdapter } from "obsidian";
 import ObsidianLens from "../main";
-import {captureScreenRegion} from "../services/capture";
-import {runOCR} from "../services/swift-runner";
-import {cleanupFile} from "../utils/temp-file";
-import {LensError, showErrorNotice} from "../utils/errors";
+import { resolveBackend } from "../services/backend-factory";
+import { LensError, showErrorNotice } from "../utils/errors";
 
 export function registerCommands(plugin: ObsidianLens): void {
 	plugin.addCommand({
 		id: "capture-and-ocr",
 		name: "Capture screen region and run OCR",
-		editorCallback: async (editor, view) => {
+		editorCallback: async (editor) => {
 			const adapter = plugin.app.vault.adapter as FileSystemAdapter;
 			const vaultBasePath = adapter.getBasePath();
 			const pluginDir = path.join(
@@ -19,15 +18,15 @@ export function registerCommands(plugin: ObsidianLens): void {
 				"plugins",
 				plugin.manifest.id,
 			);
-			const swiftScriptPath = path.join(
-				pluginDir,
-				"assets",
-				"ocr.swift",
-			);
+			const scriptName =
+				process.platform === "darwin" ? "ocr.swift" : "ocr.ps1";
+			const scriptPath = path.join(pluginDir, "assets", scriptName);
+
+			const backend = resolveBackend(scriptPath);
 
 			try {
 				// Step 1: Screen capture
-				const imagePath = await captureScreenRegion();
+				const { imagePath } = await backend.captureRegion();
 				if (!imagePath) {
 					return;
 				}
@@ -37,8 +36,7 @@ export function registerCommands(plugin: ObsidianLens): void {
 
 				try {
 					// Step 2: Run OCR
-					const text = await runOCR(
-						swiftScriptPath,
+					const { text } = await backend.runOcr(
 						imagePath,
 						plugin.settings!.language,
 					);
@@ -50,8 +48,8 @@ export function registerCommands(plugin: ObsidianLens): void {
 					processingNotice.hide();
 				}
 
-				// Step 6: Clean up the temp image
-				cleanupFile(imagePath);
+				// Step 4: Clean up the temp image
+				backend.cleanup([imagePath]);
 			} catch (error) {
 				console.error("[Obsidian Lens]", error);
 				showErrorNotice(error as LensError);

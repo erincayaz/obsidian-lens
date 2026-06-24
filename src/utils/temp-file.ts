@@ -7,7 +7,8 @@ import * as os from "os";
  * Uses timestamp + random suffix to avoid collisions.
  */
 export function tempFilePath(extension: string): string {
-	const id = Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+	const id =
+		Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
 	return path.join(os.tmpdir(), `obsidian-lens-${id}.${extension}`);
 }
 

@@ -1,36 +1,54 @@
-import {execFile} from "child_process";
-import {tempFilePath, cleanupFile} from "../utils/temp-file";
-import {LensError} from "../utils/errors";
-import type {LanguageMode} from "../settings";
+import { execFile } from "child_process";
+import { tempFilePath, cleanupFile } from "../utils/temp-file";
+import { LensError } from "../utils/errors";
+import type { LanguageMode } from "../settings";
+import type {
+	IOcrBackend,
+	CaptureResult,
+	OcrResult,
+} from "../platform/interfaces";
+import { captureScreenRegionMacOS } from "./capture";
 
 /**
- * Compile the Swift OCR script and run it against the given image.
- *
- * @param swiftScriptPath — Absolute path to `assets/ocr.swift`
- * @param imagePath       — Absolute path to the captured PNG
- * @param language        — Language mode to pass to the Swift script
- * @returns Recognized text string.
- * @throws {LensError} on any failure.
+ * macOS backend: uses Apple Vision Framework via a compiled Swift script.
  */
-export async function runOCR(
-	swiftScriptPath: string,
-	imagePath: string,
-	language: LanguageMode,
-): Promise<string> {
-	// 1. Verify swiftc is available
-	await checkSwiftc();
+export class SwiftOcrBackend implements IOcrBackend {
+	private swiftScriptPath: string;
 
-	// 2. Compile the Swift script to a temp binary
-	const binaryPath = tempFilePath("ocr");
-	await compileSwift(swiftScriptPath, binaryPath);
+	constructor(swiftScriptPath: string) {
+		this.swiftScriptPath = swiftScriptPath;
+	}
 
-	try {
-		// 3. Execute the binary
-		const text = await executeBinary(binaryPath, imagePath, language);
-		return text;
-	} finally {
-		// 4. Always clean up the compiled binary
-		cleanupFile(binaryPath);
+	async captureRegion(): Promise<CaptureResult> {
+		const imagePath = await captureScreenRegionMacOS();
+		return { imagePath };
+	}
+
+	async runOcr(
+		imagePath: string,
+		language: LanguageMode,
+	): Promise<OcrResult> {
+		// 1. Verify swiftc is available
+		await checkSwiftc();
+
+		// 2. Compile the Swift script to a temp binary
+		const binaryPath = tempFilePath("ocr");
+		await compileSwift(this.swiftScriptPath, binaryPath);
+
+		try {
+			// 3. Execute the binary
+			const text = await executeBinary(binaryPath, imagePath, language);
+			return { text };
+		} finally {
+			// 4. Always clean up the compiled binary
+			cleanupFile(binaryPath);
+		}
+	}
+
+	async cleanup(paths: string[]): Promise<void> {
+		for (const p of paths) {
+			cleanupFile(p);
+		}
 	}
 }
 
@@ -58,11 +76,14 @@ function compileSwift(sourcePath: string, outputPath: string): Promise<void> {
 		execFile(
 			"swiftc",
 			[sourcePath, "-o", outputPath],
-			{timeout: 30_000},
+			{ timeout: 30_000 },
 			(error, stdout, stderr) => {
 				if (error) {
 					console.error("[Obsidian Lens] swiftc stderr:", stderr);
-					console.error("[Obsidian Lens] swiftc error:", error.message);
+					console.error(
+						"[Obsidian Lens] swiftc error:",
+						error.message,
+					);
 					reject(new Error(LensError.VisionError));
 				} else {
 					resolve();
@@ -84,11 +105,16 @@ function executeBinary(
 		execFile(
 			binaryPath,
 			[imagePath, language],
-			{timeout: 30_000, maxBuffer: 1024 * 1024},
+			{ timeout: 30_000, maxBuffer: 1024 * 1024 },
 			(error, stdout, stderr) => {
 				if (error) {
 					console.error("[Obsidian Lens] OCR binary stderr:", stderr);
-					console.error("[Obsidian Lens] OCR binary error:", error.message, "code:", error.code);
+					console.error(
+						"[Obsidian Lens] OCR binary error:",
+						error.message,
+						"code:",
+						error.code,
+					);
 					switch (error.code) {
 						case 1:
 							reject(new Error(LensError.NoTextFound));

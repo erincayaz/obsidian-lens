@@ -1,6 +1,6 @@
-import {Plugin} from 'obsidian';
-import {LensSettings, DEFAULT_SETTINGS, LensSettingTab} from "./settings";
-import {registerCommands} from "./commands/ocr-command";
+import { Plugin } from "obsidian";
+import { LensSettings, DEFAULT_SETTINGS, LensSettingTab } from "./settings";
+import { registerCommands } from "./commands/ocr-command";
 
 export default class ObsidianLens extends Plugin {
 	settings: LensSettings | undefined;
@@ -20,7 +20,11 @@ export default class ObsidianLens extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<LensSettings>);
+		this.settings = Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			(await this.loadData()) as Partial<LensSettings>,
+		);
 	}
 
 	async saveSettings() {

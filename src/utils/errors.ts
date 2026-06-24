@@ -1,46 +1,41 @@
-import {Notice} from "obsidian";
+import { Notice } from "obsidian";
 
-/**
- * Error kinds that can arise during the OCR flow.
- */
 export enum LensError {
 	/** User cancelled the screen capture (screencapture exit code 1) */
 	CaptureCancelled = "capture-cancelled",
 	/** swiftc not found on PATH */
 	SwiftcMissing = "swiftc-missing",
-	/** Swift script ran but found no text */
+	/** OCR language pack not installed (Windows) */
+	LanguagePackMissing = "language-pack-missing",
+	/** PowerShell / Swift script ran but found no text */
 	NoTextFound = "no-text-found",
-	/** Swift script encountered a Vision framework error */
+	/** PowerShell / Swift script encountered a Vision/WinRT error */
 	VisionError = "vision-error",
 	/** No active markdown editor or cursor position available */
 	NoActiveEditor = "no-active-editor",
+	/** Unsupported platform */
+	PlatformNotSupported = "platform-not-supported",
 }
 
-/**
- * Map each error kind to a human-readable message suitable for Notice.
- */
 function errorMessage(error: LensError): string {
 	switch (error) {
 		case LensError.CaptureCancelled:
 			return ""; // silent — user intentionally cancelled
 		case LensError.SwiftcMissing:
-			return (
-				"Xcode Command Line Tools required. Install via: xcode-select --install"
-			);
+			return "Xcode Command Line Tools required. Install via: xcode-select --install";
+		case LensError.LanguagePackMissing:
+			return "OCR language pack not installed. Add it in Windows Settings → Time & Language → Language.";
 		case LensError.NoTextFound:
 			return "No text detected in the selected region.";
 		case LensError.VisionError:
 			return "OCR failed. Please try again.";
 		case LensError.NoActiveEditor:
 			return "Please open a note before using Obsidian Lens.";
+		case LensError.PlatformNotSupported:
+			return "Obsidian Lens requires macOS or Windows.";
 	}
 }
 
-/**
- * Show an appropriate user-facing notice for the given error.
- * Accepts a LensError enum value or an Error whose .message is a LensError.
- * Returns true if a notice was shown, false if the error is silent.
- */
 export function showErrorNotice(error: unknown): boolean {
 	if (error instanceof Error) {
 		return showErrorNotice(error.message);
