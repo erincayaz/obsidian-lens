@@ -1,6 +1,5 @@
 import * as path from "path";
 import { Notice } from "obsidian";
-import { FileSystemAdapter } from "obsidian";
 import ObsidianLens from "../main";
 import { resolveBackend } from "../services/backend-factory";
 import { LensError, showErrorNotice } from "../utils/errors";
@@ -10,17 +9,9 @@ export function registerCommands(plugin: ObsidianLens): void {
 		id: "capture-and-ocr",
 		name: "Capture screen region and run OCR",
 		editorCallback: async (editor) => {
-			const adapter = plugin.app.vault.adapter as FileSystemAdapter;
-			const vaultBasePath = adapter.getBasePath();
-			const pluginDir = path.join(
-				vaultBasePath,
-				plugin.app.vault.configDir,
-				"plugins",
-				plugin.manifest.id,
-			);
 			const scriptName =
 				process.platform === "darwin" ? "ocr.swift" : "ocr.ps1";
-			const scriptPath = path.join(pluginDir, "assets", scriptName);
+			const scriptPath = path.join(plugin.assetsPath, scriptName);
 
 			const backend = resolveBackend(scriptPath);
 
