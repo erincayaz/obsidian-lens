@@ -1,6 +1,6 @@
 # Obsidian Lens
 
-Digitize handwritten notes from your screen directly into your vault using native operating system OCR.
+Digitize handwritten notes from your screen directly into your vault using native operating system (MacOS, Windows) OCR.
 
 Because it uses native OS frameworks, no **AI API** or no **cloud subscription** is required.
 
