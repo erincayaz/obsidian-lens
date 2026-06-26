@@ -8,7 +8,7 @@ Because it uses native OS frameworks, no **AI API** or no **cloud subscription**
 
 ## Installation
 
-Right now the plugin is not featured on the [Official Community Plugins](https://community.obsidian.md/plugins) but will be once I am sure it works as intended. Until then you can download the plugin using [BRAT](https://tfthacker.com/BRAT).
+You can install the plugin by following this [link](https://community.obsidian.md/plugins/lens-ocr)
 
 ## Documentation
 
