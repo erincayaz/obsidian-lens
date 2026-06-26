@@ -144,7 +144,7 @@ $bitmap.Dispose()
 `;
 
 	return new Promise<string | null>((resolve, reject) => {
-		const proc = execFile(
+		execFile(
 			"powershell.exe",
 			["-NoProfile", "-NonInteractive", "-Command", psScript],
 			{ timeout: 60_000 },

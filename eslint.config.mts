@@ -8,6 +8,7 @@ export default tseslint.config(
 		languageOptions: {
 			globals: {
 				...globals.browser,
+				process: "readonly",
 			},
 			parserOptions: {
 				projectService: {
@@ -22,11 +23,23 @@ export default tseslint.config(
 		},
 	},
 	...obsidianmd.configs.recommended,
+	{
+		files: ["**/*.ts", "**/*tsx"],
+		rules: {
+			"obsidianmd/ui/sentence-case": [
+				"error",
+				{
+					brands: ["OCR", "Lens", "Turkish", "English", "Capture", "Settings", "Hotkeys"],
+				}
+			]
+		}
+	},
 	globalIgnores([
 		"node_modules",
 		"dist",
 		"esbuild.config.mjs",
 		"eslint.config.js",
+		"eslint.config.mts",
 		"version-bump.mjs",
 		"versions.json",
 		"main.js",

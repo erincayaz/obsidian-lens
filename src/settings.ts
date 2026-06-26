@@ -23,13 +23,6 @@ export class LensSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		new Setting(containerEl)
-			.setName("Obsidian Lens")
-			.setHeading()
-			.setDesc(
-				"Capture a screen region and digitize handwritten text via native macOS OCR.",
-			);
-
 		new Setting(containerEl).setName("OCR language").setHeading();
 
 		new Setting(containerEl)
