@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-lens",
 	"version": "0.1.0",
-	"description": "Capture screen regions and digitize handwritten notes via native macOS OCR.",
+	"description": "Capture screen regions and digitize handwritten notes via native macOS and Windows OCR.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {
@@ -10,8 +10,8 @@
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "eslint ."
 	},
-	"keywords": ["obsidian", "ocr", "handwriting", "macos"],
-	"license": "MIT",
+	"keywords": ["obsidian", "ocr", "handwriting", "macos", "windows", "screen capture"],
+	"license": "GPL-3.0-only",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
 		"esbuild": "0.25.5",

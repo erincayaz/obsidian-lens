@@ -42,6 +42,12 @@ Since the plugin utilizes native system frameworks, it supports:
 
 This is an open-source project. If you encounter any bugs, have feature requests, or want to contribute to the codebase, feel free to open an issue or submit a pull request on GitHub.
 
+## Notes
+
+While this plugin is available on Windows as well, Windows' native OCR is not really good with handwriting. But it is still good with digital fonts, so you can still use it to get text from documents which you are unable to copy paste from.
+
+Also this plugin uses `powershell` and `swift` scripts to call native OCR functions. I did best I could to keep content of these scripts as transparent as possible and use `esbuild` to inject content of these scripts to `main.js`. But it is totaly understandable if you feel unsafe and have questions about it. So you can create an issue about it to further learn the content of scripts, ask to AI or look content of `main.js` before running the plugin.
+
 ## License
 
 GPL-3
