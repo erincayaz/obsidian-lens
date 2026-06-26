@@ -30,9 +30,9 @@ function errorMessage(error: LensError): string {
 		case LensError.VisionError:
 			return "OCR failed. Please try again.";
 		case LensError.NoActiveEditor:
-			return "Please open a note before using Obsidian Lens.";
+			return "Please open a note before using Lens OCR.";
 		case LensError.PlatformNotSupported:
-			return "Obsidian Lens requires macOS or Windows.";
+			return "Lens OCR requires macOS or Windows.";
 	}
 }
 

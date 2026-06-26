@@ -18,11 +18,11 @@ export async function captureScreenRegionMacOS(): Promise<string | null> {
 			(error, stdout, stderr) => {
 				if (error) {
 					console.error(
-						"[Obsidian Lens] screencapture stderr:",
+						"[Lens OCR] screencapture stderr:",
 						stderr,
 					);
 					console.error(
-						"[Obsidian Lens] screencapture error:",
+						"[Lens OCR] screencapture error:",
 						error.message,
 						"code:",
 						error.code,
@@ -62,7 +62,7 @@ Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "Obsidian Lens — Drag to select a region"
+$form.Text = "Lens OCR — Drag to select a region"
 $form.FormBorderStyle = "None"
 $form.TopMost = $true
 $form.Cursor = "Cross"
@@ -151,11 +151,11 @@ $bitmap.Dispose()
 			(error, stdout, stderr) => {
 				if (error) {
 					console.error(
-						"[Obsidian Lens] PowerShell capture stderr:",
+						"[Lens OCR] PowerShell capture stderr:",
 						stderr,
 					);
 					console.error(
-						"[Obsidian Lens] PowerShell capture error:",
+						"[Lens OCR] PowerShell capture error:",
 						error.message,
 						"code:",
 						error.code,

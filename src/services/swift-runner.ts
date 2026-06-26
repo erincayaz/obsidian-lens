@@ -59,7 +59,7 @@ function checkSwiftc(): Promise<void> {
 	return new Promise((resolve, reject) => {
 		execFile("which", ["swiftc"], (error) => {
 			if (error) {
-				console.error("[Obsidian Lens] swiftc not found on PATH");
+				console.error("[Lens OCR] swiftc not found on PATH");
 				reject(new Error(LensError.SwiftcMissing));
 			} else {
 				resolve();
@@ -79,9 +79,9 @@ function compileSwift(sourcePath: string, outputPath: string): Promise<void> {
 			{ timeout: 30_000 },
 			(error, stdout, stderr) => {
 				if (error) {
-					console.error("[Obsidian Lens] swiftc stderr:", stderr);
+					console.error("[Lens OCR] swiftc stderr:", stderr);
 					console.error(
-						"[Obsidian Lens] swiftc error:",
+						"[Lens OCR] swiftc error:",
 						error.message,
 					);
 					reject(new Error(LensError.VisionError));
@@ -108,9 +108,9 @@ function executeBinary(
 			{ timeout: 30_000, maxBuffer: 1024 * 1024 },
 			(error, stdout, stderr) => {
 				if (error) {
-					console.error("[Obsidian Lens] OCR binary stderr:", stderr);
+					console.error("[Lens OCR] OCR binary stderr:", stderr);
 					console.error(
-						"[Obsidian Lens] OCR binary error:",
+						"[Lens OCR] OCR binary error:",
 						error.message,
 						"code:",
 						error.code,

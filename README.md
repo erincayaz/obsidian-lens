@@ -1,4 +1,4 @@
-# Obsidian Lens
+# Obsidian Lens OCR
 
 Digitize handwritten notes from your screen directly into your vault using native operating system (MacOS, Windows) OCR.
 
@@ -12,7 +12,7 @@ Right now the plugin is not featured on the [Official Community Plugins](https:/
 
 ## Documentation
 
-To use the plugin you must first assign a hotkey for `Capture screen region and run OCR` command. You can do it by going to settings and search *Obsidian Lens* in Hotkeys section.
+To use the plugin you must first assign a hotkey for `Capture screen region and run OCR` command. You can do it by going to settings and search *Obsidian Lens OCR* in Hotkeys section.
 
 ![Hotkey](./docs/hotkey.png)
 

@@ -42,7 +42,7 @@ export function registerCommands(plugin: ObsidianLens): void {
 				// Step 4: Clean up the temp image
 				await backend.cleanup([imagePath]);
 			} catch (error) {
-				console.error("[Obsidian Lens]", error);
+				console.error("[Lens OCR]", error);
 				showErrorNotice(error as LensError);
 			}
 		},

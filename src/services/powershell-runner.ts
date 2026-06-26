@@ -71,11 +71,11 @@ function executeOcrScript(
 			(error, stdout, stderr) => {
 				if (error) {
 					console.error(
-						"[Obsidian Lens] PowerShell OCR stderr:",
+						"[Lens OCR] PowerShell OCR stderr:",
 						stderr,
 					);
 					console.error(
-						"[Obsidian Lens] PowerShell OCR error:",
+						"[Lens OCR] PowerShell OCR error:",
 						error.message,
 						"code:",
 						error.code,

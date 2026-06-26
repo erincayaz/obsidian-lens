@@ -48,7 +48,7 @@ export function deployScripts(pluginDir: string): string {
 		if (needsWrite) {
 			fs.writeFileSync(filePath, content, "utf-8");
 			console.debug(
-				`[Obsidian Lens] Deployed ${fileName} to ${filePath}`,
+				`[Lens OCR] Deployed ${fileName} to ${filePath}`,
 			);
 		}
 	}
