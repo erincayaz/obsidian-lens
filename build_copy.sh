@@ -29,8 +29,8 @@ echo "✅ Build completed successfully!"
 echo "📂 Copying files to $DEST_DIR..."
 if [ -f  "main.js" ]; then
     cp "main.js" "$DEST_DIR"
-    cp "assets"/* "$DEST_DIR/assets/"
-    echo "📂 main.js and assets copied to $DEST_DIR"
+    cp "manifest.json" "$DEST_DIR"
+    echo "📂 main.js and manifest.json copied to $DEST_DIR"
 else
     echo "❌ main.js not found. Please check the build output."
     exit 1
